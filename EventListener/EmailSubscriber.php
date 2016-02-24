@@ -90,9 +90,9 @@ class EmailSubscriber extends CommonSubscriber {
                 if (strpos($url, '?') === false) {
                     $url .= '?';
                 } else {
-                    $url .= '&';
+                    $url .= '&amp;';
                 }
-                $url .= 'utm_source=' . $source . '&utm_medium=' . $medium . '&utm_campaign=' . urlencode($campaign);
+                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign);
                 $url .=$add_to_url;
             }
             return $match[1] . $url . $match[3];
@@ -116,9 +116,9 @@ class EmailSubscriber extends CommonSubscriber {
                 if (strpos($url, '?') === false) {
                     $url .= '?';
                 } else {
-                    $url .= '&';
+                    $url .= '&amp;';
                 }
-                $url .= 'utm_source=' . $source . '&utm_medium=' . $medium . '&utm_campaign=' . urlencode($campaign);
+                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign);
                 $url .=$add_to_url;
             }
             return $match[1] . $url . $match[3];
