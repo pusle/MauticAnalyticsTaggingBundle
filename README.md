@@ -8,7 +8,7 @@
 <ol>
 <li>Copy files to plugin dir</li>
 <li>Go to your Settings > Plugins section.</li>
-<li>Install/Upgrade Plugins should add new plugin.</li>
+<li>Install/Upgrade Plugins should add new plugin. If not, please clear cache dir or save configuration.</li>
 <li>Go to Settings > Configuration. Manage new Analytics taggins settings.</li>
 <li>Send example email. UTM tags will be added to every link.</li>
 </ol>
