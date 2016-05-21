@@ -25,8 +25,8 @@ return array(
         'active' => true,
         'utm_source' => 'mautic',
         'utm_medium' => 'email',
-        'utm_campaign' => 'subject',
-        'utm_content' => 'category',
+        'utm_campaign' => 'category',
+        'utm_content' => 'subject',
         'remove_accents' => true,
     )
 );
