@@ -53,7 +53,8 @@ class ConfigType extends AbstractType {
         $builder->add('utm_campaign', 'choice', array(
             'choices' => array(
                 'name' => 'mautic.analytics.tagging.utm_campaign.name',
-                'subject' => 'mautic.analytics.tagging.utm_campaign.subject'
+                'subject' => 'mautic.analytics.tagging.utm_campaign.subject',
+                'category' => 'mautic.analytics.tagging.utm_campaign.category'
             ),
             'label' => 'mautic.analytics.tagging.utm_campaign',
             'attr' => array(

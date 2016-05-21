@@ -29,7 +29,7 @@ class EmailSubscriber extends CommonSubscriber {
      * @param EmailBuilderEvent $event
      */
     public function onEmailBuild(EmailBuilderEvent $event) {
-        
+
     }
 
     /**
@@ -55,10 +55,25 @@ class EmailSubscriber extends CommonSubscriber {
         $utm_campaign_type = $this->factory->getParameter('utm_campaign');
         $remove_accents = $this->factory->getParameter('remove_accents');
 
-        if ($utm_campaign_type == 'name')
+        switch ($utm_campaign_type) :
+
+          case 'name':
             $utm_campaign = $email->getName();
-        elseif ($utm_campaign_type == 'subject')
+            break;
+
+          case 'subject':
             $utm_campaign = $email->getSubject();
+            break;
+
+          case 'category':
+             if ( is_null($email->getCategory()) ) :
+                $utm_campaign = $email->getSubject();
+             else:
+                $utm_campaign = $email->getCategory()->getTitle();
+             endif;
+            break;
+
+        endswitch;
 
         if ($remove_accents) {
             setlocale(LC_CTYPE, 'en_US.UTF8');
