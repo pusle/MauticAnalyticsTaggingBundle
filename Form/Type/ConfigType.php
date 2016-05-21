@@ -58,7 +58,8 @@ class ConfigType extends AbstractType {
             ),
             'label' => 'mautic.analytics.tagging.utm_campaign',
             'attr' => array(
-                'class' => 'form-control'
+                'class' => 'form-control',
+                'tooltip' => 'mautic.analytics.tagging.utm_campaign.tooltip'
             ),
             'empty_value' => false,
             'constraints' => array(
