@@ -51,20 +51,20 @@ class EmailSubscriber extends CommonSubscriber {
 
         $content = str_replace('{extendedplugin}', 'world!', $content);
         $utm_campaign = $utm_source = $this->factory->getParameter('utm_source');
+        $utm_content = '';
         $utm_medium = $this->factory->getParameter('utm_medium');
         $utm_campaign_type = $this->factory->getParameter('utm_campaign');
+        $utm_content_type = $this->factory->getParameter('utm_content');
         $remove_accents = $this->factory->getParameter('remove_accents');
 
-        switch ($utm_campaign_type) :
 
+        switch ($utm_campaign_type) :
           case 'name':
             $utm_campaign = $email->getName();
             break;
-
           case 'subject':
             $utm_campaign = $email->getSubject();
             break;
-
           case 'category':
              if ( is_null($email->getCategory()) ) :
                 $utm_campaign = $email->getSubject();
@@ -72,24 +72,47 @@ class EmailSubscriber extends CommonSubscriber {
                 $utm_campaign = $email->getCategory()->getTitle();
              endif;
             break;
-
         endswitch;
+
+
+        switch ($utm_content_type) :
+          case 'name':
+            $utm_content = $email->getName();
+            break;
+          case 'subject':
+            $utm_content = $email->getSubject();
+            break;
+          case 'category':
+             if ( is_null($email->getCategory()) ) :
+                $utm_content = $email->getSubject();
+             else:
+                $utm_content = $email->getCategory()->getTitle();
+             endif;
+            break;
+        endswitch;
+
 
         if ($remove_accents) {
             setlocale(LC_CTYPE, 'en_US.UTF8');
-            $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $utm_campaign);
-            $string = str_replace(' ', '-', $string);
-            $string = preg_replace('/\\s+/', '-', $string);
-            $utm_campaign = strtolower($string);
+
+            $str_campaign = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $utm_campaign);
+            $str_campaign = str_replace(' ', '-', $str_campaign);
+            $str_campaign = preg_replace('/\\s+/', '-', $str_campaign);
+            $utm_campaign = strtolower($str_campaign);
+
+            $str_content = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $utm_content);
+            $str_content = str_replace(' ', '-', $str_content);
+            $str_content = preg_replace('/\\s+/', '-', $str_content);
+            $utm_content = strtolower($str_content);
         }
 
-        $content = $this->add_analytics_tracking_to_urls($content, $utm_source, $utm_campaign, $utm_medium);
-        $content = $this->add_analytics_tracking_to_urls2($content, $utm_source, $utm_campaign, $utm_medium);
+        $content = $this->add_analytics_tracking_to_urls($content, $utm_source, $utm_campaign, $utm_content, $utm_medium);
+        $content = $this->add_analytics_tracking_to_urls2($content, $utm_source, $utm_campaign, $utm_content, $utm_medium);
         $event->setContent($content);
     }
 
-    protected function add_analytics_tracking_to_urls2($body, $source, $campaign, $medium = 'email') {
-        return preg_replace_callback('#(<v:roundrect.*?href=")([^"]*)("[^>]*?>)#i', function($match) use ($source, $campaign, $medium) {
+    protected function add_analytics_tracking_to_urls2($body, $source, $campaign, $utem_content, $medium = 'email') {
+        return preg_replace_callback('#(<v:roundrect.*?href=")([^"]*)("[^>]*?>)#i', function($match) use ($source, $campaign, $utm_content, $medium) {
             $url = $match[2];
             if (strpos($url, 'utm_source') === false && strpos($url, 'http') !== false) {
 
@@ -107,15 +130,15 @@ class EmailSubscriber extends CommonSubscriber {
                 } else {
                     $url .= '&amp;';
                 }
-                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign);
+                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign) . '&amp;utm_content=' . $utm_content;
                 $url .=$add_to_url;
             }
             return $match[1] . $url . $match[3];
         }, $body);
     }
 
-    protected function add_analytics_tracking_to_urls($body, $source, $campaign, $medium = 'email') {
-        return preg_replace_callback('#(<a.*?href=")([^"]*)("[^>]*?>)#i', function($match) use ($source, $campaign, $medium) {
+    protected function add_analytics_tracking_to_urls($body, $source, $campaign, $utm_content, $medium = 'email') {
+        return preg_replace_callback('#(<a.*?href=")([^"]*)("[^>]*?>)#i', function($match) use ($source, $campaign, $utm_content, $medium) {
             $url = $match[2];
             if (strpos($url, 'utm_source') === false && strpos($url, 'http') !== false) {
 
@@ -133,7 +156,7 @@ class EmailSubscriber extends CommonSubscriber {
                 } else {
                     $url .= '&amp;';
                 }
-                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign);
+                $url .= 'utm_source=' . $source . '&amp;utm_medium=' . $medium . '&amp;utm_campaign=' . urlencode($campaign) . '&amp;utm_content=' . $utm_content;
                 $url .=$add_to_url;
             }
             return $match[1] . $url . $match[3];
