@@ -53,11 +53,34 @@ class ConfigType extends AbstractType {
         $builder->add('utm_campaign', 'choice', array(
             'choices' => array(
                 'name' => 'mautic.analytics.tagging.utm_campaign.name',
-                'subject' => 'mautic.analytics.tagging.utm_campaign.subject'
+                'subject' => 'mautic.analytics.tagging.utm_campaign.subject',
+                'category' => 'mautic.analytics.tagging.utm_campaign.category'
             ),
             'label' => 'mautic.analytics.tagging.utm_campaign',
             'attr' => array(
-                'class' => 'form-control'
+                'class' => 'form-control',
+                'tooltip' => 'mautic.analytics.tagging.utm_campaign.tooltip'
+            ),
+            'empty_value' => false,
+            'constraints' => array(
+                new NotBlank(
+                        array(
+                    'message' => 'mautic.core.value.required'
+                        )
+                )
+            )
+        ));
+
+        $builder->add('utm_content', 'choice', array(
+            'choices' => array(
+                'name' => 'mautic.analytics.tagging.utm_campaign.name',
+                'subject' => 'mautic.analytics.tagging.utm_campaign.subject',
+                'category' => 'mautic.analytics.tagging.utm_campaign.category'
+            ),
+            'label' => 'mautic.analytics.tagging.utm_content',
+            'attr' => array(
+                'class' => 'form-control',
+                'tooltip' => 'mautic.analytics.tagging.utm_content.tooltip'
             ),
             'empty_value' => false,
             'constraints' => array(

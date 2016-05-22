@@ -1,7 +1,7 @@
 # MauticAnalyticsTaggingBundle
 
 <p>Plugin add Google Analytics tagging to Mautic.</p>
-<p>For example plugin transform your url <br />http://domain.tld <br />to <br /> http://domain.tpl?utm_source=mautic&utm_medium=email&utm_campaign=email-name</p>
+<p>For example plugin transform your url <br />http://domain.tld <br />to <br /> http://domain.tld?utm_source=mautic&utm_medium=email&utm_campaign=email-category&utm_content=email-subject</p>
 
 ## How to install?
 
@@ -12,7 +12,8 @@
 <li>Go to Settings > Configuration. Manage new Analytics taggins settings.</li>
 <li>Send example email. UTM tags will be added to every link.</li>
 </ol>
-## What do you need know? 
+
+## What do you need know?
 
 Plugin skip url If url has already utm parameters.<br />
 Plugin support url with hashs (#).
